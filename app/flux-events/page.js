@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
-import AnomalyChart from "@/components/AnomalyChart";
+import FluxEventChart from "@/components/FluxEventChart";
 
-export default function AnomaliesPage() {
+export default function FluxEventsPage() {
   const [filter, setFilter] = useState("ALL");
-  const [anomalyData, setAnomalyData] = useState([]);
+  const [fluxEventData, setFluxEventData] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,24 +16,57 @@ export default function AnomaliesPage() {
       fetch('/anomaly_table.json').then(res => res.json())
     ]).then(([chartRes, tableRes]) => {
       setChartData(chartRes);
-      setAnomalyData(tableRes);
+      setFluxEventData(tableRes);
       setLoading(false);
+
+      // Simulate live data updates
+      const interval = setInterval(() => {
+        setChartData(prev => {
+          if (!prev || prev.length === 0) return prev;
+          const next = [...prev];
+          const last = next[next.length - 1];
+          const newPoint = {
+            ...last,
+            id: last.id ? last.id + 1 : Math.random(),
+            timestamp: new Date().toISOString(),
+            consumption: Math.max(0, last.consumption + (Math.random() * 10 - 5)),
+            ensemble_score: Math.max(0, Math.min(1, last.ensemble_score + (Math.random() * 0.1 - 0.05))),
+            is_anomaly: Math.random() > 0.95
+          };
+          if (newPoint.is_anomaly) {
+            newPoint.severity = Math.random() > 0.8 ? "CRITICAL" : "HIGH";
+            newPoint.anomaly_type = "Simulated Flux";
+          }
+          next.shift();
+          next.push(newPoint);
+          return next;
+        });
+
+        setFluxEventData(prev => {
+          if (!prev || prev.length === 0) return prev;
+          return prev.map(item => ({
+            ...item,
+            ensemble_score: Math.max(0, Math.min(1, item.ensemble_score + (Math.random() * 0.02 - 0.01)))
+          }));
+        });
+      }, 3000);
+      return () => clearInterval(interval);
     }).catch(err => {
       console.error("Failed to load data:", err);
       setLoading(false);
     });
   }, []);
 
-  const filtered = filter === "ALL" ? anomalyData : anomalyData.filter(a => a.severity === filter);
+  const filtered = filter === "ALL" ? fluxEventData : fluxEventData.filter(a => a.severity === filter);
 
   return (
     <DashboardLayout title="TELEMETRY_X">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
         <div>
-          <h2 className="font-display-xl text-display-xl text-white mb-xs tracking-tight">Anomaly Detection Log</h2>
+          <h2 className="font-display-xl text-display-xl text-white mb-xs tracking-tight">Flux Event Detection Log</h2>
           <p className="font-body-lg text-body-lg text-on-surface-variant flex items-center gap-xs">
             <span className="material-symbols-outlined text-[#E82127] text-[18px]">warning</span>
-            System requires attention. {anomalyData.filter(a => a.isCritical).length} critical events logged.
+            System requires attention. {fluxEventData.filter(a => a.isCritical).length} critical events logged.
           </p>
         </div>
         <div className="flex gap-sm">
@@ -56,13 +89,13 @@ export default function AnomaliesPage() {
       {/* Historical Chart */}
       <div className="data-card rounded-lg w-full p-md mt-md">
         <div className="flex items-center justify-between mb-sm border-b border-[#262626] pb-xs">
-          <span className="font-label-caps text-label-caps uppercase text-on-surface-variant">Historical Consumption & Anomalies</span>
+          <span className="font-label-caps text-label-caps uppercase text-on-surface-variant">Historical Consumption & Flux Events</span>
           <span className="w-2 h-2 bg-[#00E599] rounded-full animate-pulse"></span>
         </div>
         {loading ? (
           <div className="h-[300px] flex items-center justify-center text-on-surface-variant">Loading model output...</div>
         ) : (
-          <AnomalyChart data={chartData} />
+          <FluxEventChart data={chartData} />
         )}
       </div>
 

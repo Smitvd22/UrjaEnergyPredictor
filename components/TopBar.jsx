@@ -14,12 +14,12 @@ const timeTabs = {
     { label: "Weekly", href: "/historical/weekly" },
     { label: "Monthly", href: "/historical/monthly" },
   ],
-  "/forecast": [
-    { label: "24H", href: "/forecast" },
-    { label: "7D", href: "/forecast/weekly" },
-    { label: "30D", href: "/forecast/monthly" },
+  "/projections": [
+    { label: "24H", href: "/projections" },
+    { label: "7D", href: "/projections/weekly" },
+    { label: "30D", href: "/projections/monthly" },
   ],
-  "/anomalies": [],
+  "/flux-events": [],
 };
 
 export default function TopBar({ title = "URJA" }) {

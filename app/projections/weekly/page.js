@@ -1,19 +1,19 @@
 import DashboardLayout from "@/components/DashboardLayout";
 
-export const metadata = { title: "Urja – 7-Day Forecast" };
+export const metadata = { title: "Urja – 7-Day Projections" };
 
-export default function ForecastWeeklyPage() {
+export default function ProjectionsWeeklyPage() {
   return (
     <DashboardLayout title="URJA">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h2 className="font-display-xl text-display-xl text-white">Forecast Center</h2>
+          <h2 className="font-display-xl text-display-xl text-white">Projections Center</h2>
           <p className="font-body-lg text-body-lg text-on-surface-variant mt-2">7-Day Predictive Consumption Vector</p>
         </div>
         <div className="flex items-center gap-2 bg-[#141414] p-1 rounded-lg border border-[#262626]">
-          <a href="/forecast" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">24H</a>
-          <a href="/forecast/weekly" className="px-4 py-2 font-label-caps text-label-caps bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-md">7D</a>
-          <a href="/forecast/monthly" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">30D</a>
+          <a href="/projections" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">24H</a>
+          <a href="/projections/weekly" className="px-4 py-2 font-label-caps text-label-caps bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-md">7D</a>
+          <a href="/projections/monthly" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">30D</a>
         </div>
       </div>
 

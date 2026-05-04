@@ -1,8 +1,8 @@
 import DashboardLayout from "@/components/DashboardLayout";
 
-export const metadata = { title: "Urja – 30-Day Forecast" };
+export const metadata = { title: "Urja – 30-Day Projections" };
 
-export default function ForecastMonthlyPage() {
+export default function ProjectionsMonthlyPage() {
   const weeks = ["W1","W2","W3","W4","W5"];
   const forecastData = [55, 72, 88, 65, 80];
 
@@ -10,13 +10,13 @@ export default function ForecastMonthlyPage() {
     <DashboardLayout title="URJA">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h2 className="font-display-xl text-display-xl text-white">Forecast Center</h2>
-          <p className="font-body-lg text-body-lg text-on-surface-variant mt-2">30-Day Extended Forecast Model</p>
+          <h2 className="font-display-xl text-display-xl text-white">Projections Center</h2>
+          <p className="font-body-lg text-body-lg text-on-surface-variant mt-2">30-Day Extended Projections Model</p>
         </div>
         <div className="flex items-center gap-2 bg-[#141414] p-1 rounded-lg border border-[#262626]">
-          <a href="/forecast" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">24H</a>
-          <a href="/forecast/weekly" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">7D</a>
-          <a href="/forecast/monthly" className="px-4 py-2 font-label-caps text-label-caps bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-md">30D</a>
+          <a href="/projections" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">24H</a>
+          <a href="/projections/weekly" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">7D</a>
+          <a href="/projections/monthly" className="px-4 py-2 font-label-caps text-label-caps bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-md">30D</a>
         </div>
       </div>
 
@@ -55,12 +55,12 @@ export default function ForecastMonthlyPage() {
           </div>
           <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
             <defs>
-              <linearGradient id="forecastGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <linearGradient id="projectionsGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#008CFF" stopOpacity="0.3"></stop>
                 <stop offset="100%" stopColor="#008CFF" stopOpacity="0"></stop>
               </linearGradient>
             </defs>
-            <path d="M0,45 Q10,38 20,42 T40,28 T60,35 T80,18 T100,25 L100,100 L0,100 Z" fill="url(#forecastGrad)"></path>
+            <path d="M0,45 Q10,38 20,42 T40,28 T60,35 T80,18 T100,25 L100,100 L0,100 Z" fill="url(#projectionsGrad)"></path>
             <path d="M0,45 Q10,38 20,42 T40,28 T60,35 T80,18 T100,25" fill="none" stroke="#008CFF" strokeWidth="1" strokeDasharray="4,2" vectorEffect="non-scaling-stroke"></path>
             {/* Confidence band */}
             <path d="M0,40 Q10,33 20,37 T40,23 T60,30 T80,13 T100,20 L100,30 T80,23 T60,40 T40,33 T20,47 Q10,43 0,50 Z" fill="#008CFF" fillOpacity="0.08"></path>
@@ -80,7 +80,7 @@ export default function ForecastMonthlyPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
           <p className="font-body-lg text-body-lg text-on-surface leading-relaxed">
-            The model predicts a <span className="text-[#E82127] font-mono-data">peak around Day 22</span> driven by forecasted extreme weather conditions and scheduled industrial ramp-up at Sector 7.
+            The model predicts a <span className="text-[#E82127] font-mono-data">peak around Day 22</span> driven by projected extreme weather conditions and scheduled industrial ramp-up at Sector 7.
           </p>
           <div className="space-y-sm">
             {[

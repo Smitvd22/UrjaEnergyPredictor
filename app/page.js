@@ -1,22 +1,106 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 
-export const metadata = {
-  title: "Urja – System Overview",
-  description: "Real-time telemetry and consumption metrics.",
-};
-
 export default function OverviewPage() {
+  const [loadFactor, setLoadFactor] = useState(65.0);
+  const [volatility, setVolatility] = useState(0.04);
+  const [rampRate, setRampRate] = useState(1.2);
+  const [currentConsumption, setCurrentConsumption] = useState(142.5);
+  const [currentBars, setCurrentBars] = useState([35, 40, 65, 30, 75, 95, 55]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadFactor(prev => Math.max(50, Math.min(90, prev + (Math.random() * 4 - 2))));
+      setVolatility(prev => Math.max(0.01, Math.min(0.1, prev + (Math.random() * 0.01 - 0.005))));
+      setRampRate(prev => Math.max(0.5, Math.min(3.0, prev + (Math.random() * 0.4 - 0.2))));
+      setCurrentConsumption(prev => Math.max(100, prev + (Math.random() * 4 - 2)));
+      
+      setCurrentBars(prev => {
+        const next = [...prev];
+        next.shift();
+        next.push(Math.max(20, Math.min(100, next[next.length - 1] + (Math.random() * 20 - 10))));
+        return next;
+      });
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <DashboardLayout title="URJA">
       {/* Page Header */}
-      <div className="flex justify-between items-end mb-sm">
+      <div className="flex justify-between items-end mb-xl">
         <div>
-          <h2 className="font-headline-lg text-headline-lg text-on-background">Grid Overview</h2>
-          <p className="font-body-sm text-body-sm text-on-surface-variant mt-base">Real-time telemetry and consumption metrics.</p>
+          <h2 className="font-headline-lg text-headline-lg text-on-background">Grid Risk Score Calculator</h2>
+          <p className="font-body-sm text-body-sm text-on-surface-variant mt-base">Real-time grid stress indicator to prevent outages.</p>
         </div>
-        <div className="flex items-center gap-sm bg-surface-container-high px-md py-sm rounded-full border border-outline-variant/30">
+        <div className="flex items-center gap-sm bg-[#141414] px-md py-sm rounded-full border border-[#262626]">
           <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-          <span className="font-mono-data text-mono-data text-tertiary">System Optimal</span>
+          <span className="font-mono-data text-mono-data text-tertiary">Risk: Stable (15/100)</span>
+        </div>
+      </div>
+
+      {/* Grid Risk Score Parameters */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-grid-gutter mb-xl">
+        {/* Load Factor */}
+        <div className="bg-[#141414] border border-[#262626] rounded-xl p-md flex flex-col justify-between relative shadow-[0_4px_15px_-10px_rgba(0,0,0,0.4)]">
+          <div className="flex justify-between items-center mb-sm">
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Load Factor</h3>
+            <span className="material-symbols-outlined text-primary text-sm">battery_5_bar</span>
+          </div>
+          <div>
+            <div className="flex items-baseline gap-sm">
+              <span className="font-display-md text-display-md text-on-background">{loadFactor.toFixed(1)}</span>
+              <span className="font-mono-data text-mono-data text-primary">%</span>
+            </div>
+            <p className="font-body-sm text-body-sm text-on-surface-variant mt-xs text-xs">Safe capacity proximity</p>
+          </div>
+        </div>
+
+        {/* Volatility */}
+        <div className="bg-[#141414] border border-[#262626] rounded-xl p-md flex flex-col justify-between relative shadow-[0_4px_15px_-10px_rgba(0,0,0,0.4)]">
+          <div className="flex justify-between items-center mb-sm">
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Volatility</h3>
+            <span className="material-symbols-outlined text-secondary text-sm">multiline_chart</span>
+          </div>
+          <div>
+            <div className="flex items-baseline gap-sm">
+              <span className="font-display-md text-display-md text-on-background">{volatility.toFixed(3)}</span>
+              <span className="font-mono-data text-mono-data text-secondary">CV</span>
+            </div>
+            <p className="font-body-sm text-body-sm text-on-surface-variant mt-xs text-xs">Rolling variation</p>
+          </div>
+        </div>
+
+        {/* Ramp Rate */}
+        <div className="bg-[#141414] border border-[#262626] rounded-xl p-md flex flex-col justify-between relative shadow-[0_4px_15px_-10px_rgba(0,0,0,0.4)]">
+          <div className="flex justify-between items-center mb-sm">
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Ramp Rate</h3>
+            <span className="material-symbols-outlined text-tertiary text-sm">speed</span>
+          </div>
+          <div>
+            <div className="flex items-baseline gap-sm">
+              <span className="font-display-md text-display-md text-on-background">{rampRate.toFixed(2)}</span>
+              <span className="font-mono-data text-mono-data text-tertiary">MW/h</span>
+            </div>
+            <p className="font-body-sm text-body-sm text-on-surface-variant mt-xs text-xs">Demand surge rate</p>
+          </div>
+        </div>
+
+        {/* Anomaly Flag */}
+        <div className="bg-[#141414] border border-[#262626] rounded-xl p-md flex flex-col justify-between relative shadow-[0_4px_15px_-10px_rgba(0,0,0,0.4)]">
+          <div className="flex justify-between items-center mb-sm">
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Flux Event Flag</h3>
+            <span className="material-symbols-outlined text-outline text-sm">flag</span>
+          </div>
+          <div>
+            <div className="flex items-baseline gap-sm">
+              <span className="font-display-md text-display-md text-on-background">0</span>
+              <span className="font-mono-data text-mono-data text-outline">Normal</span>
+            </div>
+            <p className="font-body-sm text-body-sm text-on-surface-variant mt-xs text-xs">Detector output</p>
+          </div>
         </div>
       </div>
 
@@ -31,7 +115,7 @@ export default function OverviewPage() {
           </div>
           <div className="relative z-10">
             <div className="flex items-baseline gap-sm">
-              <span className="font-display-xl text-display-xl text-on-background">142.5</span>
+              <span className="font-display-xl text-display-xl text-on-background">{currentConsumption.toFixed(1)}</span>
               <span className="font-mono-data text-mono-data text-primary">MWh</span>
             </div>
             <div className="flex items-center gap-xs mt-sm text-tertiary">
@@ -64,7 +148,7 @@ export default function OverviewPage() {
         <div className="bg-[#141414] border border-[#262626] rounded-xl p-lg flex flex-col justify-between relative overflow-hidden group shadow-[0_10px_30px_-15px_rgba(0,0,0,0.4)]">
           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none border-t border-white/5 rounded-t-xl"></div>
           <div className="relative z-10 flex justify-between items-start mb-xl">
-            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Forecasted 24h Total</h3>
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Projected 24h Total</h3>
             <span className="material-symbols-outlined text-outline">online_prediction</span>
           </div>
           <div className="relative z-10">
@@ -109,7 +193,7 @@ export default function OverviewPage() {
             </div>
             {/* Current bars */}
             <div className="absolute w-full h-full p-4 flex items-end gap-2 z-20">
-              {[35, 40, 65, 30, 75, 95, 55].map((h, i) => (
+              {currentBars.map((h, i) => (
                 <div
                   key={i}
                   className={`flex-1 ${i === 5 ? "bg-secondary/80 border-t border-secondary shadow-[0_0_10px_rgba(255,180,172,0.3)]" : "bg-primary/80 shadow-[0_0_10px_rgba(166,200,255,0.3)] hover:bg-primary"} rounded-t-sm transition-colors relative`}
@@ -128,7 +212,7 @@ export default function OverviewPage() {
         <div className="bg-[#141414] border border-[#262626] rounded-xl p-lg relative shadow-[0_10px_30px_-15px_rgba(0,0,0,0.4)] flex flex-col">
           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none border-t border-white/5 rounded-t-xl"></div>
           <div className="flex justify-between items-center mb-lg relative z-10 border-b border-zinc-800/50 pb-sm">
-            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Recent Anomalies</h3>
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Recent Flux Events</h3>
             <button className="text-xs text-primary hover:text-primary-container font-mono-data transition-colors">View All</button>
           </div>
           <div className="flex flex-col gap-sm relative z-10 flex-1 overflow-y-auto">

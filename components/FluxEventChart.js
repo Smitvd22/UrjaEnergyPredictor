@@ -12,7 +12,7 @@ import {
   ReferenceDot,
 } from "recharts";
 
-export default function AnomalyChart({ data }) {
+export default function FluxEventChart({ data }) {
   // Format the data for recharts
   const chartData = useMemo(() => {
     return data.map((d) => ({
@@ -36,7 +36,7 @@ export default function AnomalyChart({ data }) {
           {dataPoint.is_anomaly && (
             <div className="mt-1 pt-1 border-t border-[#262626]">
               <p className="text-[#E82127] font-bold text-[12px] uppercase">
-                {dataPoint.severity} ANOMALY
+                {dataPoint.severity} FLUX EVENT
               </p>
               <p className="text-on-surface-variant text-[12px]">
                 Type: {dataPoint.anomaly_type}

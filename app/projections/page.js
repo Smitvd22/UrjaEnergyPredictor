@@ -1,22 +1,33 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 
-export const metadata = {
-  title: "Urja – Forecast Center",
-  description: "7-Day predictive energy consumption forecast.",
-};
+export default function ProjectionsPage() {
+  const [peakProj, setPeakProj] = useState(12.6);
+  const [confidence, setConfidence] = useState(96.2);
+  const [variance, setVariance] = useState(5.2);
 
-export default function ForecastPage() {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPeakProj(prev => Math.max(10.0, Math.min(15.0, prev + (Math.random() * 0.4 - 0.2))));
+      setConfidence(prev => Math.max(85.0, Math.min(99.9, prev + (Math.random() * 1.0 - 0.5))));
+      setVariance(prev => Math.max(0.0, Math.min(15.0, prev + (Math.random() * 0.6 - 0.3))));
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <DashboardLayout title="URJA">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h2 className="font-display-xl text-display-xl text-white">Forecast Center</h2>
+          <h2 className="font-display-xl text-display-xl text-white">Projections Center</h2>
           <p className="font-body-lg text-body-lg text-on-surface-variant mt-2">24-Hour Predictive Consumption Vector</p>
         </div>
         <div className="flex items-center gap-2 bg-[#141414] p-1 rounded-lg border border-[#262626]">
-          <a href="/forecast" className="px-4 py-2 font-label-caps text-label-caps bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-md">24H</a>
-          <a href="/forecast/weekly" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">7D</a>
-          <a href="/forecast/monthly" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">30D</a>
+          <a href="/projections" className="px-4 py-2 font-label-caps text-label-caps bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-md">24H</a>
+          <a href="/projections/weekly" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">7D</a>
+          <a href="/projections/monthly" className="px-4 py-2 font-label-caps text-label-caps text-neutral-400 hover:text-white rounded-md transition-colors">30D</a>
         </div>
       </div>
 
@@ -49,11 +60,11 @@ export default function ForecastPage() {
           <div className="flex gap-8 pt-4 border-t border-[#262626]">
             <div>
               <p className="font-label-caps text-[10px] text-neutral-500 uppercase">Peak Projection</p>
-              <p className="font-mono-data text-headline-md text-white mt-1">12.6 <span className="text-sm text-neutral-500">MW</span></p>
+              <p className="font-mono-data text-headline-md text-white mt-1">{peakProj.toFixed(1)} <span className="text-sm text-neutral-500">MW</span></p>
             </div>
             <div>
               <p className="font-label-caps text-[10px] text-neutral-500 uppercase">Confidence Score</p>
-              <p className="font-mono-data text-headline-md text-[#00E599] mt-1">96.2%</p>
+              <p className="font-mono-data text-headline-md text-[#00E599] mt-1">{confidence.toFixed(1)}%</p>
             </div>
             <div>
               <p className="font-label-caps text-[10px] text-neutral-500 uppercase">Predicted at</p>
@@ -76,7 +87,7 @@ export default function ForecastPage() {
                 <div className="flex items-start gap-3 ml-2">
                   <span className="material-symbols-outlined text-[#E82127] text-xl mt-0.5">wb_sunny</span>
                   <div>
-                    <h4 className="font-mono-data text-[12px] text-white">Temperature Spike Forecast</h4>
+                    <h4 className="font-mono-data text-[12px] text-white">Temperature Spike Projection</h4>
                     <p className="font-body-sm text-[13px] text-neutral-400 mt-1 leading-relaxed">Afternoon heat will drive a <strong className="text-[#E82127]">+18% increase</strong> in cooling load between 14:00-18:00.</p>
                   </div>
                 </div>
@@ -98,11 +109,11 @@ export default function ForecastPage() {
           <div className="bg-[#141414] border border-[#262626] rounded-xl p-md card-edge gloss-shadow min-h-[120px]">
             <h3 className="font-label-caps text-label-caps text-neutral-400 uppercase tracking-wider mb-2">24H Variance</h3>
             <div className="flex items-baseline gap-2">
-              <span className="font-mono-data text-headline-lg text-[#E82127]">+5.2%</span>
+              <span className="font-mono-data text-headline-lg text-[#E82127]">+{variance.toFixed(1)}%</span>
               <span className="font-mono-data text-sm text-neutral-500">vs Yesterday</span>
             </div>
             <div className="w-full h-1 bg-[#1F1F1F] rounded-full mt-3 overflow-hidden">
-              <div className="h-full bg-[#E82127]" style={{width: "52%"}}></div>
+              <div className="h-full bg-[#E82127]" style={{width: `${variance * 10}%`}}></div>
             </div>
           </div>
         </div>
