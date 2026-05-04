@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 
 export default function OverviewPage() {
-  const [loadFactor, setLoadFactor] = useState(65.0);
+  const [loadFactor, setLoadFactor] = useState(68.0);
   const [volatility, setVolatility] = useState(0.04);
   const [rampRate, setRampRate] = useState(1.2);
-  const [currentConsumption, setCurrentConsumption] = useState(142.5);
-  const [currentBars, setCurrentBars] = useState([35, 40, 65, 30, 75, 95, 55]);
+  const [currentConsumption, setCurrentConsumption] = useState(4520.5);
+  const [currentBars, setCurrentBars] = useState([55, 40, 60, 45, 80, 70, 65]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -110,7 +110,7 @@ export default function OverviewPage() {
         <div className="bg-[#141414] border border-[#262626] rounded-xl p-lg flex flex-col justify-between relative overflow-hidden group shadow-[0_10px_30px_-15px_rgba(0,0,0,0.4)]">
           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none border-t border-white/5 rounded-t-xl"></div>
           <div className="relative z-10 flex justify-between items-start mb-xl">
-            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Current Consumption</h3>
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Current Monthly Consumption</h3>
             <span className="material-symbols-outlined text-primary">bolt</span>
           </div>
           <div className="relative z-10">
@@ -129,7 +129,7 @@ export default function OverviewPage() {
         <div className="bg-[#141414] border border-[#262626] rounded-xl p-lg flex flex-col justify-between relative overflow-hidden group shadow-[0_10px_30px_-15px_rgba(0,0,0,0.4)]">
           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none border-t border-white/5 rounded-t-xl"></div>
           <div className="relative z-10 flex justify-between items-start mb-xl">
-            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Peak Demand Today</h3>
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Peak Demand This Month</h3>
             <span className="material-symbols-outlined text-secondary">insights</span>
           </div>
           <div className="relative z-10">
@@ -148,12 +148,12 @@ export default function OverviewPage() {
         <div className="bg-[#141414] border border-[#262626] rounded-xl p-lg flex flex-col justify-between relative overflow-hidden group shadow-[0_10px_30px_-15px_rgba(0,0,0,0.4)]">
           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none border-t border-white/5 rounded-t-xl"></div>
           <div className="relative z-10 flex justify-between items-start mb-xl">
-            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Projected 24h Total</h3>
+            <h3 className="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Projected 30D Total</h3>
             <span className="material-symbols-outlined text-outline">online_prediction</span>
           </div>
           <div className="relative z-10">
             <div className="flex items-baseline gap-sm">
-              <span className="font-display-xl text-display-xl text-on-background">3,240</span>
+              <span className="font-display-xl text-display-xl text-on-background">95,000</span>
               <span className="font-mono-data text-mono-data text-outline">MWh</span>
             </div>
             <div className="w-full bg-[#1F1F1F] h-1.5 rounded-full mt-md overflow-hidden">
@@ -175,7 +175,7 @@ export default function OverviewPage() {
           </div>
           <div className="relative z-10">
             <div className="flex items-baseline gap-sm">
-              <span className="font-display-xl text-display-xl text-on-background">$14.2</span>
+              <span className="font-display-xl text-display-xl text-on-background">$18.1</span>
               <span className="font-mono-data text-mono-data text-green-500">k</span>
             </div>
             <div className="flex items-center gap-xs mt-sm text-on-surface-variant">
@@ -194,7 +194,7 @@ export default function OverviewPage() {
           </div>
           <div className="relative z-10">
             <div className="flex items-baseline gap-sm">
-              <span className="font-display-xl text-display-xl text-on-background">14:30</span>
+              <span className="font-display-xl text-display-xl text-on-background">15th 14:30</span>
               <span className="font-mono-data text-mono-data text-secondary">EST</span>
             </div>
             <div className="flex items-center gap-xs mt-sm text-secondary">
@@ -237,7 +237,7 @@ export default function OverviewPage() {
             </div>
             <div className="flex items-center gap-xs mt-sm text-on-surface-variant">
               <span className="material-symbols-outlined text-sm">calendar_month</span>
-              <span className="font-body-sm text-body-sm">Expected consumption</span>
+              <span className="font-body-sm text-body-sm">Expected monthly consumption</span>
             </div>
           </div>
         </div>
